@@ -98,3 +98,11 @@ mongoose.connect(URL) // regresa una promesa
         console.log('Error al conectarnos a la BD: ', error)
     })
 
+
+// 
+/*
+Práctica:
+Agregar filtros por medio de queries params al endpoint GET /koders?gender=m&age=27
+
+Investigar acerca de middlewares en express
+*/
