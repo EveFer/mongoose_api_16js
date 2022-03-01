@@ -6,10 +6,7 @@ const Koder = require('./koderModel')
 const server =  express()
 
 
-const DB_USER = 'fernanda'
-const DB_PASSWORD = 'kodemia123'
-const DB_HOST = 'kodemia16.gyrdh.mongodb.net'
-const DB_NAME = 'kodemia'
+
 
 
 const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`
@@ -18,14 +15,33 @@ server.use(express.json()) //
 
 
 server.get('/koders', async (request, response) => {
-    // 
-    const koders = await Koder.find({}) // regresa una promesa
-    response.json({
-        success: true,
-        data: {
-            koders: koders
-        }
-    })
+    try {
+        // const gender = request.query.gender
+        // const name = request.query.name
+        // const age = request.query.age
+
+        // destructuring
+        const { gender, age } = request.query
+        const filters = {}
+
+        if (gender) filters.gender = gender.toLowerCase()
+        console.log(filters)
+        if(age) filters.age = parseInt(age)
+
+        const koders = await Koder.find(filters)  //Koder.find({gender: 'm'})  // regresa una promesa
+
+        response.json({
+            success: true,
+            data: {
+                koders: koders
+            }
+        })
+    } catch (error) {
+        response.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
 server.get('/koders/:id', async (request, response) => {
